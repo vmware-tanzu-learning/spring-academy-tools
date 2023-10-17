@@ -37,4 +37,4 @@ jobs:
             -i ghcr.io/${REPOSITORY_OWNER,,}/vscode-java-extensions-files:latest \
             -f $HOME/.local/share/code-server/extensions \
             --registry-username=${{github.actor}} \
-            --registry-password=${{secrets.GITHUB_TOKEN}}
+            --registry-password=${{secrets.GHCR_TOKEN}}
