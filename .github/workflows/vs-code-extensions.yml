@@ -55,6 +55,7 @@ jobs:
       - name: Tag latest image
         shell: bash
         run: |
+          REPOSITORY_OWNER=${{github.repository_owner}}
           docker pull ghcr.io/${REPOSITORY_OWNER,,}/vscode-java-extensions-amd64-files:latest
           docker tag  ghcr.io/${REPOSITORY_OWNER,,}/vscode-java-extensions-amd64-files:latest \
                       ghcr.io/${REPOSITORY_OWNER,,}/vscode-java-extensions-amd64-files:${{github.event.inputs.java-extension-package-version}}
