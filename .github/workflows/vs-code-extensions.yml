@@ -50,7 +50,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           username: ${{github.actor}}
-          password: ${{env.GHCR_TOKEN}}
+          password: ${{secrets.GHCR_TOKEN}}
           registry: ghcr.io
       - name: Tag latest image
         shell: bash
