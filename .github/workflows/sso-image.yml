@@ -24,6 +24,7 @@ jobs:
         run: |
           cd course-secure-rest-api-oauth2-tools/sso/
           ./gradlew clean build -x test
+          cp build/libs/sso-${{github.event.inputs.version}}-SNAPSHOT.jar ../../
         
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -43,13 +44,13 @@ jobs:
         with:
           file: Dockerfile
           content: |
-            FROM bellsoft/liberica-openjre-alpine:17 as builder
+            FROM eclipse-temurin:17-jdk-alpine as builder
             WORKDIR application
-            ARG JAR_FILE=build/libs/sso-${{github.event.inputs.version}}-SNAPSHOT.jar
+            ARG JAR_FILE=*.jar
             COPY ${JAR_FILE} application.jar
             RUN java -Djarmode=layertools -jar application.jar extract
 
-            FROM bellsoft/liberica-openjre-alpine:17
+            FROM eclipse-temurin:17-jdk-alpine
             WORKDIR application
             COPY --from=builder application/dependencies/ ./
             COPY --from=builder application/spring-boot-loader/ ./
@@ -60,7 +61,7 @@ jobs:
       - name: List files
         run: |
           ls -lrt
-           
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
