@@ -38,18 +38,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: List files
-        run: |
-          ls -lrt 
-            
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v3
+      - name: Create a Dockerfile
+        uses: 1arp/create-a-file-action@0.3  
         with:
-          context: .
-          #push: true
-          platforms: linux/amd64,linux/arm64,darwin/amd64
-          tags: ghcr.io/vmware-tanzu-learning/course-secure-rest-api-oauth2-code/sso:latest
-          dockerfile: |
+          file: Dockerfile
+          content: |
             FROM bellsoft/liberica-openjre-alpine:17 as builder
             WORKDIR application
             ARG JAR_FILE=build/libs/sso-${{github.event.inputs.version}}-SNAPSHOT.jar
@@ -63,6 +56,19 @@ jobs:
             COPY --from=builder application/snapshot-dependencies/ ./
             COPY --from=builder application/application/ ./
             ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
+
+      - name: List files
+        run: |
+          ls -lrt
+           
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          #push: true
+          platforms: linux/amd64,linux/arm64,darwin/amd64
+          tags: ghcr.io/vmware-tanzu-learning/course-secure-rest-api-oauth2-code/sso:latest
+         
       - name: List Images
         run: |
           docker images
