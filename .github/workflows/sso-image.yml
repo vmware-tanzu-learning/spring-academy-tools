@@ -25,20 +25,6 @@ jobs:
           cd course-secure-rest-api-oauth2-tools/sso/
           ./gradlew clean build -x test
           cp build/libs/sso-${{github.event.inputs.version}}-SNAPSHOT.jar ../../
-        
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          #password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create a Dockerfile
         uses: 1arp/create-a-file-action@0.3  
@@ -57,7 +43,20 @@ jobs:
             COPY --from=builder application/spring-boot-loader/ ./
             COPY --from=builder application/snapshot-dependencies/ ./
             COPY --from=builder application/application/ ./
-            ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
+            ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"] 
+      
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
