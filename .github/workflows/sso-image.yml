@@ -15,7 +15,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          path: course-secure-rest-api-oauth2-tools/sso
+          sparse-checkout: |
+            course-secure-rest-api-oauth2-tools/sso/
   
       - name: Set up GraalVM
         uses: graalvm/setup-graalvm@v1
