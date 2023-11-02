@@ -14,21 +14,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            course-secure-rest-api-oauth2-tools/sso/
-  
+      
       - name: Set up GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
           java-version: 17
           
-      - name:  List files
-        run: |
-          ls -lrt
-          
       - name: Build Jar
         run: |
+          cd course-secure-rest-api-oauth2-tools/sso/
           ./gradlew clean build -x test
         
       - name: Set up QEMU
@@ -43,7 +37,11 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
+
+      - name: List files
+        run: |
+          ls -lrt 
+            
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
