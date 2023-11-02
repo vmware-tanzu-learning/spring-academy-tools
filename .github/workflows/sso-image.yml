@@ -58,23 +58,14 @@ jobs:
             COPY --from=builder application/application/ ./
             ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]
 
-      - name: List files
-        run: |
-          ls -lrt
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
           context: .
-          #push: true
+          push: true
           platforms: linux/amd64,linux/arm64
           tags: ghcr.io/vmware-tanzu-learning/course-secure-rest-api-oauth2-code/sso:latest
-         
-      - name: List Images
-        run: |
-          docker images
-
-
+          
             
 
         
