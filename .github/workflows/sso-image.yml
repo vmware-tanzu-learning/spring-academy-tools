@@ -22,7 +22,11 @@ jobs:
         uses: graalvm/setup-graalvm@v1
         with:
           java-version: 17
-
+          
+      - name:  List files
+        run: |
+          ls -lrt
+          
       - name: Build Jar
         run: |
           ./gradlew clean build -x test
