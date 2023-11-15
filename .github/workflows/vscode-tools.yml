@@ -25,14 +25,14 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v3
 
-      - name: Install Carvel tools
+      - name: Install carvel tools
         shell: bash
         run: curl -L https://carvel.dev/install.sh | bash
 
       - name: Install crane
         uses: imjasonh/setup-crane@v0.1
 
-      - name: Setup VS Code Tools
+      - name: Build tools package
         shell: bash
         run: |
           ./vscode-tools/scripts/build-tools-package.sh setup
@@ -40,17 +40,17 @@ jobs:
           CODE_SERVER_VERSION: ${{github.event.inputs.code-server-version}}
           VSCODE_JAVA_EXTENSION_VERSION: ${{github.event.inputs.java-extension-package-version}}
 
-      - name: Login to GitHub container registry
+      - name: Login to ghr.io
         uses: docker/login-action@v1
         with:
           username: ${GITHUB_ACTOR}
           password: ${{secrets.GHCR_TOKEN}}
           registry: ghcr.io
 
-      - name: Tag latest image
+      - name: Publish package
         shell: bash
         run: |
-          ./vscode-tools/scripts/build-tools-package.sh publish_and_tag
+          ./vscode-tools/scripts/build-tools-package.sh publish
         env:
           PLATFORM_ARCH: $${{github.event.inputs.platform_arch}}
           TAG: ${{github.event.inputs.java-extension-package-version}}
