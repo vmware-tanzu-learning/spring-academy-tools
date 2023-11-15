@@ -1,0 +1,56 @@
+name: Build and Publish VS Code Tools Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      code-server-version:
+        description: Code Server Version (i.e. 4.12.0)
+        required: true
+        default: 4.12.0
+      java-extension-package-version:
+        description: Java Extension Package Version (i.e. 0.25.14)
+        required: true
+        default: 0.25.14
+      platform_arch:
+        description: Platform Architecture (i.e. amd64, arm64)
+        required: true
+        default: amd64
+
+jobs:
+  build-vscode-tools-package:
+    name: VS Code Java Tools
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Install Carvel tools
+        shell: bash
+        run: curl -L https://carvel.dev/install.sh | bash
+
+      - name: Install crane
+        uses: imjasonh/setup-crane@v0.1
+
+      - name: Setup VS Code Tools
+        shell: bash
+        run: |
+          ./vscode-tools/scripts/build-tools-package.sh setup
+        env:
+          CODE_SERVER_VERSION: ${{github.event.inputs.code-server-version}}
+          VSCODE_JAVA_EXTENSION_VERSION: ${{github.event.inputs.java-extension-package-version}}
+
+      - name: Login to GitHub container registry
+        uses: docker/login-action@v1
+        with:
+          username: ${GITHUB_ACTOR}
+          password: ${{secrets.GHCR_TOKEN}}
+          registry: ghcr.io
+
+      - name: Tag latest image
+        shell: bash
+        run: |
+          ./vscode-tools/scripts/build-tools-package.sh publish_and_tag
+        env:
+          PLATFORM_ARCH: $${{github.event.inputs.platform_arch}}
+          TAG: ${{github.event.inputs.java-extension-package-version}}
