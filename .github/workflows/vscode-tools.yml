@@ -52,5 +52,5 @@ jobs:
         run: |
           ./vscode-tools/scripts/build-tools-package.sh publish
         env:
-          PLATFORM_ARCH: $${{github.event.inputs.platform_arch}}
+          PLATFORM_ARCH: ${{github.event.inputs.platform_arch}}
           TAG: ${{github.event.inputs.java-extension-package-version}}
