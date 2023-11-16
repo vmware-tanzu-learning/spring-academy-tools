@@ -15,8 +15,9 @@ jobs:
     steps:
       - name: Updating and Installing Tools
         run: |
+          sudo dpkg --add-architecture arm64
           sudo apt update
-          sudo apt install -y build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev zlib1g-dev gcc-arm-linux-gnueabi gnat-12
+          sudo apt install -y build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev zlib1g-dev gcc-arm-linux-gnueabi gnat-12 libc6:arm64
           #sudo install apt-file
           #sudo apt-file update
 
@@ -29,7 +30,7 @@ jobs:
           mv pv pv-amd64
           ./configure --host=arm-linux-gnueabi && make      
           mv pv pv-arm64
-          ./configure --host=aarch64 && make
+          ./configure --host=arm-none-linux-gnueabi --target=arm-none-linux-gnueabi && make
           mv pv pv-aarch64
           ls -lrt
 
