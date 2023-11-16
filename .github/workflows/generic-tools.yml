@@ -29,7 +29,7 @@ jobs:
           mv pv pv-amd64
           ./configure --host=arm-linux-gnueabi && make      
           mv pv pv-arm64
-          ./configure --host=aarch64-linux-gnu-gcc && make
+          ./configure --host=aarch64 && make
           ls -lrt
 
       # - name: Upload release asset
