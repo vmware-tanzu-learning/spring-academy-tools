@@ -17,11 +17,13 @@ jobs:
     - name: Updating and Installing Tools
       run: |
         sudo apt update
-        sudo apt install -y build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev apt-file zlib1g-dev
-        sudo apt-file update
-        sudo apt-file search -x 'gcc$' | grep 'gcc-arm-linux-gnueabi'
+        sudo apt install -y build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev zlib1g-dev gcc-arm-linux-gnueabi
+        #sudo install apt-file
+        #sudo apt-file update
+        
+        
     
-    - name: Checkout JWT
+    - name: Checkout PV
       uses: actions/checkout@v4
       with:
         github-server-url: https://codeberg.org/
@@ -30,6 +32,7 @@ jobs:
     
     - name: Build 
       run: |
+        curl -L -s https://www.ivarch.com/programs/sources/pv-1.8.0.tar.gz -o pv.tgz
         ls -lrt
 
     # - name: Upload release asset
