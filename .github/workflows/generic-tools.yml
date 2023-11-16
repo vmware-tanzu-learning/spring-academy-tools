@@ -30,12 +30,14 @@ jobs:
           ./configure --host=arm-linux-gnueabi && make      
           mv pv pv-arm64
           ./configure --host=aarch64 && make
+          mv pv pv-aarch64
           ls -lrt
 
-      # - name: Upload release asset
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     name: pv
-      #     tag_name: v1.8.0
-      #     token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-      #     files: pv-1.8.0/pv-amd64,pv-1.8.0/pv-arm64
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v1
+        with:
+          name: pv
+          tag_name: v1.8.0
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          files: pv-1.8.0/pv-amd64,pv-1.8.0/pv-arm64,pv-1.8.0/pv-aarch64
