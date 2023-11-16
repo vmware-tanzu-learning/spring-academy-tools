@@ -18,8 +18,8 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev apt-file zlib1g-dev
-        sudo apt update apt-file
-        sudo apt install -y 
+        sudo apt-file update
+        sudo apt-file search -x 'gcc$' | grep 'gcc-arm-linux-gnueabi'
     
     - name: Checkout JWT
       uses: actions/checkout@v4
