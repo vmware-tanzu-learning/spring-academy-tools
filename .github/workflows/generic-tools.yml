@@ -1,4 +1,4 @@
-name: Build SSO Docker Image
+name: Generic Tools Build
 
 on:
   workflow_dispatch:
@@ -31,7 +31,7 @@ jobs:
     - name: Build 
       run: |
         ls -lrt
-        
+
     # - name: Upload release asset
     #   uses: softprops/action-gh-release@v1
     #   with:
