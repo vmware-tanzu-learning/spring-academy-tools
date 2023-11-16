@@ -26,7 +26,8 @@ jobs:
           tar xvzf pv.tgz
           cd pv-1.8.0
           ./configure && make
-          #./configure --host=arm-linux-gnueabi      
+          mv pv pv-amd64
+          ./configure --host=arm-linux-gnueabi && make      
           ls -lrt
 
     # - name: Upload release asset
