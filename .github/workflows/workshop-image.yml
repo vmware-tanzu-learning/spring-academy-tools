@@ -1,0 +1,41 @@
+name: Build SSO Docker Image
+
+on:
+  workflow_dispatch:
+    inputs:
+        version:
+            description: 'Version of the Workshop Image'
+            required: true
+            default: '0.0.1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+   
+    - name: Updating and Installing Tools
+      run: |
+        sudo apt update
+        sudo apt install -y build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev apt-file zlib1g-dev
+        sudo apt update apt-file
+        sudo apt install -y 
+    
+    - name: Checkout JWT
+      uses: actions/checkout@v4
+      with:
+        github-server-url: https://codeberg.org/
+        repository: a-j-wood/pv
+        ref: main
+    
+    - name: Build 
+      run: |
+        ls -lrt
+        
+    # - name: Upload release asset
+    #   uses: softprops/action-gh-release@v1
+    #   with:
+    #     name: pv-arm64
+    #     tag_name: v1.8.0
+    #     token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+    #     files: target/aarch64-unknown-linux-gnu/release/jwt
