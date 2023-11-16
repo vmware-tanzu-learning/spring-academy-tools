@@ -37,4 +37,4 @@ jobs:
           name: pv
           tag_name: v1.8.0
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          files: pv-amd64,pv-arm64
+          files: pv-1.8.0/pv-amd64,pv-1.8.0/pv-arm64
