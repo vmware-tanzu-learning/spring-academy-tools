@@ -21,15 +21,6 @@ jobs:
         #sudo install apt-file
         #sudo apt-file update
         
-        
-    
-    - name: Checkout PV
-      uses: actions/checkout@v4
-      with:
-        github-server-url: https://codeberg.org/
-        repository: a-j-wood/pv
-        ref: main
-    
     - name: Build 
       run: |
         curl -L -s https://www.ivarch.com/programs/sources/pv-1.8.0.tar.gz -o pv.tgz
