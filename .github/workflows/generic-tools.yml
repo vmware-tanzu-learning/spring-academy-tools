@@ -15,9 +15,8 @@ jobs:
     steps:
       - name: Updating and Installing Tools
         run: |
-          sudo dpkg --add-architecture arm64
           sudo apt update
-          sudo apt install -y build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev zlib1g-dev gcc-arm-linux-gnueabi gnat-12 libc6:arm64
+          sudo apt install -y build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev zlib1g-dev gcc-arm-linux-gnueabi gnat-12
           #sudo install apt-file
           #sudo apt-file update
 
