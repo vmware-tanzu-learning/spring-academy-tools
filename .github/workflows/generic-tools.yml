@@ -53,16 +53,15 @@ jobs:
           distro: ubuntu22.04
           githubToken: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           dockerRunArgs: |
-            --volume "${PWD}/artifacts:/artifacts"
+            --volume "/tmp/artifacts:/artifacts"
           install: |
             #binutils-arm-none-eabi gcc-arm-none-eabi gcc-arm-none-eabi-source build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev zlib1g-dev libncurses-dev
             apt update -q -y
             apt install -q -y pv
          
           run: |
-            ls -lrt $(which pv)
-            ls -lrt /usr/bin/pv
             cp $(which pv) "/artifacts/pv-arm64"
+            ls -lrt /artifacts
             
           
       - name: Upload release asset
@@ -71,4 +70,4 @@ jobs:
           name: pv
           tag_name: v1.8.0
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          files: "${PWD}/artifacts/pv-arm64"
+          files: "/tmp/artifacts/pv-arm64"
