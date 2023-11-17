@@ -15,10 +15,11 @@ jobs:
     steps:
       - name: Updating and Installing Tools
         run: |
-          sudo apt update
-          sudo apt install -y build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev zlib1g-dev gcc-arm-linux-gnueabi gnat-12
-          #sudo install apt-file
+          #sudo install apt-file gcc-arm-linux-gnueabi
           #sudo apt-file update
+          sudo apt update
+          sudo apt install -y build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev zlib1g-dev binutils-arm-none-eabi gcc-arm-none-eabi gcc-arm-none-eabi-source libncurses-dev
+         
 
       - name: Build
         run: |
