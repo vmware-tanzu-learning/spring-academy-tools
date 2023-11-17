@@ -50,8 +50,10 @@ jobs:
         uses: uraimo/run-on-arch-action@v2
         with:
           arch: aarch64
-          distro: ubuntu18.04
-
+          distro: ubuntu_latest
+          githubToken: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          dockerRunArgs: |
+            --volume "${PWD}/artifacts:/artifacts"
           install: |
             apt update -q -y
             apt install -q -y build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev zlib1g-dev binutils-arm-none-eabi gcc-arm-none-eabi gcc-arm-none-eabi-source libncurses-dev
@@ -61,7 +63,7 @@ jobs:
             tar xvzf pv.tgz
             cd pv-1.8.0
             ./configure && make
-            mv pv pv-arm64
+            mv pv /artifacts/pv-arm64
           
       - name: Upload release asset
         uses: softprops/action-gh-release@v1
@@ -69,4 +71,4 @@ jobs:
           name: pv
           tag_name: v1.8.0
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          files: pv-1.8.0/pv-arm64
+          files: ${PWD}/artifacts/pv-arm64
