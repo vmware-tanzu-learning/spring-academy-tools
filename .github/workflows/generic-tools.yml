@@ -50,7 +50,7 @@ jobs:
         uses: uraimo/run-on-arch-action@v2
         with:
           arch: aarch64
-          distro: fedora
+          distro: ubuntu18.04
 
           install: |
             apt update -q -y
