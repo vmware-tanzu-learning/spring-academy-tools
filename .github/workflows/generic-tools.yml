@@ -17,7 +17,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y bc pv
-          
+
       - name: Build
         run: |
           mkdir -p /tmp/artifacts
@@ -27,7 +27,7 @@ jobs:
       - name: Upload release asset
         uses: softprops/action-gh-release@v1
         with:
-          name: tools
+          name: Tools
           tag_name: ${{github.event.inputs.version}}
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           files: /tmp/artifacts/pv-amd64,/tmp/artifacts/bc-amd64
@@ -53,11 +53,10 @@ jobs:
             cp $(which bc) "/artifact/bc-arm64"
             ls -lrt /artifacts
             
-          
       - name: Upload release asset
         uses: softprops/action-gh-release@v1
         with:
-          name: tools
+          name: Tools
           tag_name: ${{github.event.inputs.version}}
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          files: "/tmp/artifacts/pv-arm64","/tmp/artifacts/bc-arm64"
+          files: /tmp/artifacts/pv-arm64,/tmp/artifacts/bc-arm64
