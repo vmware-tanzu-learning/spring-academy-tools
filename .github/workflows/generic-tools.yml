@@ -6,7 +6,7 @@ on:
       version:
         description: "Version of the Workshop Image"
         required: true
-        default: "0.0.1"
+        default: "v0.0.1"
 
 jobs:
   amd64:
@@ -16,32 +16,23 @@ jobs:
       - name: Updating and Installing Tools
         run: |
           sudo apt update
-          sudo apt install -y build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev zlib1g-dev binutils-arm-none-eabi gcc-arm-none-eabi gcc-arm-none-eabi-source libncurses-dev
+          sudo apt install -y bc pv
          
 
       - name: Build
         run: |
-          curl -L -s https://www.ivarch.com/programs/sources/pv-1.8.0.tar.gz -o pv.tgz
-          tar xvzf pv.tgz
-          cd pv-1.8.0
-          ./configure && make
-          mv pv pv-amd64
-          # make clean
-          # ./configure --host=aarch64-unknown-linux-gnu --target=aarch64-unknown-linux-gnu && make      
-          # mv pv pv-arm64
-          # make clean
-          # ./configure --host=arm-none-linux-eabi --target=arm-none-linux-eabi && make
-          # mv pv pv-aarch64
-          # ls -lrt
-
-
+          mkdir -p /tmp/artifacts
+          cp $(which pv) /tmp/artifacts/pv-amd64
+          cp $(which bc) /tmp/artifacts/bc-amd64
+          
       - name: Upload release asset
         uses: softprops/action-gh-release@v1
         with:
-          name: pv
-          tag_name: v1.8.0
+          name: tools
+          tag_name: ${{github.event.inputs.version}}
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          files: pv-1.8.0/pv-amd64
+          files: /tmp/artifacts/pv-amd64,/tmp/artifacts/bc-amd64
+
   arm64:
     runs-on: ubuntu-22.04
 
@@ -55,19 +46,19 @@ jobs:
           dockerRunArgs: |
             --volume "/tmp/artifacts:/artifacts"
           install: |
-            #binutils-arm-none-eabi gcc-arm-none-eabi gcc-arm-none-eabi-source build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev zlib1g-dev libncurses-dev
             apt update -q -y
-            apt install -q -y pv
+            apt install -q -y pv bc
          
           run: |
             cp $(which pv) "/artifacts/pv-arm64"
+            cp $(which bc) "/artifact/bc-arm64"
             ls -lrt /artifacts
             
           
       - name: Upload release asset
         uses: softprops/action-gh-release@v1
         with:
-          name: pv
-          tag_name: v1.8.0
+          name: tools
+          tag_name: ${{github.event.inputs.version}}
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          files: "/tmp/artifacts/pv-arm64"
+          files: "/tmp/artifacts/pv-arm64","/tmp/artifacts/bc-arm64"
