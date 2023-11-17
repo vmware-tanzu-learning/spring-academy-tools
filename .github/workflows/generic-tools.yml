@@ -28,9 +28,9 @@ jobs:
           cd pv-1.8.0
           ./configure && make
           mv pv pv-amd64
-          ./configure --host=arm-linux-gnueabi && make      
+          ./configure --host=aarch64-unknown-linux-gnu --target=aarch64-unknown-linux-gnu && make      
           mv pv pv-arm64
-          ./configure --host=arm-none-linux-gnueabi --target=arm-none-linux-gnueabi && make
+          ./configure --host=arm-none-linux-eabi --target=arm-none-linux-eabi && make
           mv pv pv-aarch64
           ls -lrt
 
