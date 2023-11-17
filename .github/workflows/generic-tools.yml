@@ -50,7 +50,7 @@ jobs:
          
           run: |
             cp $(which pv) "/artifacts/pv-arm64"
-            cp $(which bc) "/artifact/bc-arm64"
+            cp $(which bc) "/artifacts/bc-arm64"
             ls -lrt /artifacts
             
       - name: Upload release asset
