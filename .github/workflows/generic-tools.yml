@@ -60,12 +60,10 @@ jobs:
             apt install -q -y pv
          
           run: |
+            ls -lrt $(which pv)
+            ls -lrt /usr/bin/pv
             cp $(which pv) "/artifacts/pv-arm64"
-            # curl -L -s https://www.ivarch.com/programs/sources/pv-1.8.0.tar.gz -o pv.tgz
-            # tar xvzf pv.tgz
-            # cd pv-1.8.0
-            # ./configure && make
-            # mv pv /artifacts/pv-arm64
+            
           
       - name: Upload release asset
         uses: softprops/action-gh-release@v1
@@ -73,4 +71,4 @@ jobs:
           name: pv
           tag_name: v1.8.0
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          files: ${PWD}/artifacts/pv-arm64
+          files: "${PWD}/artifacts/pv-arm64"
